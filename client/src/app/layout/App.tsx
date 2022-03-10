@@ -1,5 +1,7 @@
+import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Product } from "./product";
+import Catalog from "../../feature/catalog/Catalog";
+import { Product } from "../models/product";
 
 
 export default function App() {
@@ -16,16 +18,9 @@ export default function App() {
   };
 
   return (
-    <div>
-      <h1>ReStore</h1>
-      <ul>
-        {products.map((product) => (
-          <li key={product.id}>
-            {product.name} - {product.brand} - {product.price}
-          </li>
-        ))}
-      </ul>
-      <button onClick={addProduct}>Add product</button>
-    </div>
+    <>
+      <Typography variant='h1'>ReStore</Typography>
+      <Catalog products={products} addProduct={addProduct} />
+    </>
   );
 };
