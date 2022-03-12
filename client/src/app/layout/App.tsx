@@ -1,13 +1,19 @@
 import { useState } from "react";
 
-import Catalog from "../../feature/catalog/Catalog";
-
 import { Container, CssBaseline } from "@mui/material";
 import createTheme from '@mui/material/styles/createTheme';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 
-import Header from "./Header";
+import { Route, Switch, useLocation } from "react-router-dom";
 
+import Header from "./Header";
+import Catalog from "../../features/catalog/Catalog";
+import Homepage from "../../features/home/Homepage";
+import ProductDetails from "../../features/catalog/ProductDetails";
+import AboutPage from "../../features/about/AboutPage";
+import ContactPage from "../../features/contact/ContactPage";
+
+import { AnimatePresence } from "framer-motion";
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -26,13 +32,23 @@ export default function App() {
     }
   });
 
+  const location = useLocation();
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Header darkMode={ darkMode } handleThemeChange={ handleThemeChange } />
-      <Container>
-        <Catalog />
-      </Container>
-    </ThemeProvider>
+    <AnimatePresence exitBeforeEnter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Header darkMode={ darkMode } handleThemeChange={ handleThemeChange } />
+        <Container>
+          <Switch location={location} key={location.pathname}>
+            <Route exact path='/' component={ Homepage } />
+            <Route path='/catalog' component={ Catalog } />
+            <Route path='/catalog/:id' component={ ProductDetails } />
+            <Route path='/about' component={ AboutPage } />
+            <Route path='/contact' component={ ContactPage } />
+          </Switch>
+        </Container>
+      </ThemeProvider>
+    </AnimatePresence>
   );
 };
