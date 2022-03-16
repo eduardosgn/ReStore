@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Product } from "../../app/models/product";
 import ProductList from "./ProductList";
-import { motion } from "framer-motion";
+import AnimatedPage from "../UtilComponents/AnimatedPage";
 
 export default function Catalog() {
     const [products, setProducts] = useState<Product[]>([]);
@@ -12,22 +12,11 @@ export default function Catalog() {
         .then(data => setProducts(data))
     }, []);
 
-    const variants = {
-        visible: { opacity: 1 },
-        hidden: { opacity: 0 },
-    };
-
     return (
         <>
-            <motion.div
-                initial='hidden'
-                animate='visible'
-                exit='hidden'
-                transition={{duration: .5}}
-                variants={variants}
-            >
+            <AnimatedPage>
                 <ProductList products={products} />
-            </motion.div>
+            </AnimatedPage>
         </>
     );
 };
