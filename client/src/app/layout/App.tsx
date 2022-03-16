@@ -4,7 +4,7 @@ import { Container, CssBaseline } from "@mui/material";
 import createTheme from '@mui/material/styles/createTheme';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router";
 
 import Header from "./Header";
 import Catalog from "../../features/catalog/Catalog";
@@ -19,6 +19,8 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false);
   const palleteType = darkMode ? 'dark' : 'light';
 
+  const location = useLocation();
+
   function handleThemeChange() {
     setDarkMode(!darkMode);
   };
@@ -32,23 +34,21 @@ export default function App() {
     }
   });
 
-  const location = useLocation();
-
   return (
-    <AnimatePresence exitBeforeEnter>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Header darkMode={ darkMode } handleThemeChange={ handleThemeChange } />
-        <Container>
-          <Switch location={location} key={location.pathname}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Header darkMode={ darkMode } handleThemeChange={ handleThemeChange } />
+      <Container>
+        <AnimatePresence exitBeforeEnter>
+          <Switch key={location.pathname} location={location}>
             <Route exact path='/' component={ Homepage } />
             <Route path='/catalog' component={ Catalog } />
             <Route path='/catalog/:id' component={ ProductDetails } />
             <Route path='/about' component={ AboutPage } />
             <Route path='/contact' component={ ContactPage } />
           </Switch>
-        </Container>
-      </ThemeProvider>
-    </AnimatePresence>
+        </AnimatePresence>
+      </Container>
+    </ThemeProvider>
   );
 };
